@@ -142,8 +142,8 @@ GO
 
 CREATE TABLE [dbo].[Survey](
 	[SurveyId] [nchar](10) NOT NULL,
-	[PersonalityTest] [nchar](10) NULL,
-	[Location] [nchar](10) NOT NULL,
+	[Goal] //[drop down options]
+	
 	[SkillsKnown] [nchar](10) NULL,
 	[SkillsLearning] [nchar](10) NULL,
 	[UserId] [nchar](10) NOT NULL,
