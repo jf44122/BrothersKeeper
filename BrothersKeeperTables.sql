@@ -1,161 +1,181 @@
-//Users Table
-USE [BrothersKeeper]
+USE [master]
 GO
 
-/****** Object:  Table [dbo].[User]    Script Date: 12/20/2016 10:41:35 AM ******/
-SET ANSI_NULLS ON
+/****** Object:  Database [BrothersKeepers]    Script Date: 12/21/2016 2:38:43 PM ******/
+CREATE DATABASE [BrothersKeepers]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'BrothersKeepers', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\DATA\BrothersKeepers.mdf' , SIZE = 4096KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'BrothersKeepers_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\DATA\BrothersKeepers_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
 GO
 
-SET QUOTED_IDENTIFIER ON
+ALTER DATABASE [BrothersKeepers] SET COMPATIBILITY_LEVEL = 120
 GO
 
-CREATE TABLE [dbo].[User](
-	[UserId] [uniqueidentifier] NOT NULL,
-	[User Name] [text] NOT NULL,
-	[Password] [text] NOT NULL,
-	[Name] [text] NOT NULL,
-	[Address] [text] NOT NULL,
-	[AddressUrl] [nchar](10) NOT NULL,
-	[Experience] [nchar](10) NOT NULL,
-	[UserType] [nchar](10) NOT NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [BrothersKeepers].[dbo].[sp_fulltext_database] @action = 'enable'
+end
 GO
 
-
-
-//Mentee TABLE
-USE [BrothersKeeper]
+ALTER DATABASE [BrothersKeepers] SET ANSI_NULL_DEFAULT OFF 
 GO
 
-/****** Object:  Table [dbo].[Mentee]    Script Date: 12/20/2016 10:41:29 AM ******/
-SET ANSI_NULLS ON
+ALTER DATABASE [BrothersKeepers] SET ANSI_NULLS OFF 
 GO
 
-SET QUOTED_IDENTIFIER ON
+ALTER DATABASE [BrothersKeepers] SET ANSI_PADDING OFF 
 GO
 
-CREATE TABLE [dbo].[Mentee](
-	[MenteeId] [nchar](10) NOT NULL,
-	[User] [nchar](10) NOT NULL,
-	[Skill] [nchar](10) NOT NULL,
-	[Mentor] [nchar](10) NOT NULL,
- CONSTRAINT [PK_Mentee] PRIMARY KEY CLUSTERED 
-(
-	[MenteeId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
+ALTER DATABASE [BrothersKeepers] SET ANSI_WARNINGS OFF 
 GO
 
-//Mentors TABLE
-USE [BrothersKeeper]
+ALTER DATABASE [BrothersKeepers] SET ARITHABORT OFF 
 GO
 
-/****** Object:  Table [dbo].[Mentors]    Script Date: 12/20/2016 10:43:04 AM ******/
-SET ANSI_NULLS ON
+ALTER DATABASE [BrothersKeepers] SET AUTO_CLOSE OFF 
 GO
 
-SET QUOTED_IDENTIFIER ON
+ALTER DATABASE [BrothersKeepers] SET AUTO_SHRINK OFF 
 GO
 
-CREATE TABLE [dbo].[Mentors](
-	[MentorId] [uniqueidentifier] NOT NULL,
-	[MentorName] [nchar](10) NOT NULL,
-	[Skill] [nchar](10) NOT NULL,
- CONSTRAINT [PK_Mentors] PRIMARY KEY CLUSTERED 
-(
-	[MentorId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
+ALTER DATABASE [BrothersKeepers] SET AUTO_UPDATE_STATISTICS ON 
 GO
 
-
-//Message
-USE [BrothersKeeper]
+ALTER DATABASE [BrothersKeepers] SET CURSOR_CLOSE_ON_COMMIT OFF 
 GO
 
-/****** Object:  Table [dbo].[Message]    Script Date: 12/20/2016 10:43:33 AM ******/
-SET ANSI_NULLS ON
+ALTER DATABASE [BrothersKeepers] SET CURSOR_DEFAULT  GLOBAL 
 GO
 
-SET QUOTED_IDENTIFIER ON
+ALTER DATABASE [BrothersKeepers] SET CONCAT_NULL_YIELDS_NULL OFF 
 GO
 
-CREATE TABLE [dbo].[Message](
-	[MessageID] [uniqueidentifier] NOT NULL,
-	[Text] [text] NOT NULL,
-	[FromUserId] [int] NULL,
-	[ToUserId] [int] NULL,
-	[CategoryId] [int] NOT NULL,
-	[SkillId] [int] NOT NULL,
- CONSTRAINT [PK_Message] PRIMARY KEY CLUSTERED 
-(
-	[MessageID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-
+ALTER DATABASE [BrothersKeepers] SET NUMERIC_ROUNDABORT OFF 
 GO
 
-ALTER TABLE [dbo].[Message]  WITH CHECK ADD  CONSTRAINT [FK_Message_Message] FOREIGN KEY([MessageID])
-REFERENCES [dbo].[Message] ([MessageID])
+ALTER DATABASE [BrothersKeepers] SET QUOTED_IDENTIFIER OFF 
 GO
 
-ALTER TABLE [dbo].[Message] CHECK CONSTRAINT [FK_Message_Message]
+ALTER DATABASE [BrothersKeepers] SET RECURSIVE_TRIGGERS OFF 
 GO
 
-//Skills
-USE [BrothersKeeper]
+ALTER DATABASE [BrothersKeepers] SET  DISABLE_BROKER 
 GO
 
-/****** Object:  Table [dbo].[Skills]    Script Date: 12/20/2016 10:44:08 AM ******/
-SET ANSI_NULLS ON
+ALTER DATABASE [BrothersKeepers] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
 GO
 
-SET QUOTED_IDENTIFIER ON
+ALTER DATABASE [BrothersKeepers] SET DATE_CORRELATION_OPTIMIZATION OFF 
 GO
 
-CREATE TABLE [dbo].[Skills](
-	[SkillId] [uniqueidentifier] NOT NULL,
-	[SkillName] [text] NOT NULL,
-	[SkillDescription] [text] NULL,
- CONSTRAINT [PK_SkillId] PRIMARY KEY CLUSTERED 
-(
-	[SkillId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-
+ALTER DATABASE [BrothersKeepers] SET TRUSTWORTHY OFF 
 GO
 
-
-//Survey
-USE [BrothersKeeper]
+ALTER DATABASE [BrothersKeepers] SET ALLOW_SNAPSHOT_ISOLATION OFF 
 GO
 
-/****** Object:  Table [dbo].[Survey]    Script Date: 12/20/2016 10:44:57 AM ******/
-SET ANSI_NULLS ON
+ALTER DATABASE [BrothersKeepers] SET PARAMETERIZATION SIMPLE 
 GO
 
-SET QUOTED_IDENTIFIER ON
+ALTER DATABASE [BrothersKeepers] SET READ_COMMITTED_SNAPSHOT OFF 
 GO
 
-CREATE TABLE [dbo].[Survey](
-	[SurveyId] [nchar](10) NOT NULL,
-	[Goal] //[drop down options]
-	
-	[SkillsKnown] [nchar](10) NULL,
-	[SkillsLearning] [nchar](10) NULL,
-	[UserId] [nchar](10) NOT NULL,
- CONSTRAINT [PK_Survey] PRIMARY KEY CLUSTERED 
-(
-	[SurveyId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
+ALTER DATABASE [BrothersKeepers] SET HONOR_BROKER_PRIORITY OFF 
+GO
 
+ALTER DATABASE [BrothersKeepers] SET RECOVERY FULL 
+GO
+
+ALTER DATABASE [BrothersKeepers] SET  MULTI_USER 
+GO
+
+ALTER DATABASE [BrothersKeepers] SET PAGE_VERIFY CHECKSUM  
+GO
+
+ALTER DATABASE [BrothersKeepers] SET DB_CHAINING OFF 
+GO
+
+ALTER DATABASE [BrothersKeepers] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+
+ALTER DATABASE [BrothersKeepers] SET TARGET_RECOVERY_TIME = 0 SECONDS 
+GO
+
+ALTER DATABASE [BrothersKeepers] SET DELAYED_DURABILITY = DISABLED 
+GO
+
+ALTER DATABASE [BrothersKeepers] SET  READ_WRITE 
 GO
 
 
 
 
+
+
+**************************
+
+CREATE TABLE [dbo].[Users] (
+    [UserId]     INT          NOT NULL,
+    [UserName]   VARCHAR (50) NULL,
+    [Password]   VARCHAR (50) NULL,
+    [Name]       VARCHAR (30) NULL,
+    [Address]    VARCHAR (50) NULL,
+    [AddressURL] VARCHAR (50) NULL,
+    [Experience] VARCHAR (50) NULL, 
+    CONSTRAINT [PK_Users] PRIMARY KEY ([UserId])
+);
+
+***************************
+
+CREATE TABLE [dbo].[Survey] (
+    [SurveyId]        INT NULL,
+    [SkillIdKnown]    INT NULL,
+    [SkillIdLearning] INT NULL,
+    [UserId]          INT NULL,
+    CONSTRAINT [FK_Survey_ToTable] FOREIGN KEY ([SkillIdKnown]) REFERENCES [dbo].[Skills] ([SkillId]),
+    CONSTRAINT [FK_Survey_ToTable_1] FOREIGN KEY ([SkillIdLearning]) REFERENCES [dbo].[Skills] ([SkillId]),
+    CONSTRAINT [FK_Survey_ToTable_2] FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users] ([UserId])
+);
+
+*******************************
+
+CREATE TABLE [dbo].[Skills] (
+    [SkillId]          INT           NOT NULL,
+    [SkillName]        VARCHAR (50)  NULL,
+    [SkillDescription] VARCHAR (250) NULL,
+    CONSTRAINT [PK_Skills] PRIMARY KEY CLUSTERED ([SkillId] ASC)
+);
+
+********************************
+
+CREATE TABLE [dbo].[Message] (
+    [MessageID]   INT  NOT NULL,
+    [FromUserId]  INT  NOT NULL,
+    [ToUserId]    INT  NULL,
+    [MessageText] TEXT NULL,
+    CONSTRAINT [FK_Message_ToTable] FOREIGN KEY ([FromUserId]) REFERENCES [dbo].[Users] ([UserId]),
+    CONSTRAINT [FK_Message_ToTable_1] FOREIGN KEY ([ToUserId]) REFERENCES [dbo].[Users] ([UserId])
+);
+
+****************************
+
+CREATE TABLE [dbo].[Mentor] (
+    [MentorId] INT NOT NULL,
+    [SkillId]  INT NOT NULL,
+    CONSTRAINT [FK_Mentor_ToTable] FOREIGN KEY ([MentorId]) REFERENCES [dbo].[Users] ([UserId]),
+    CONSTRAINT [FK_Mentor_ToTable_1] FOREIGN KEY ([SkillId]) REFERENCES [dbo].[Skills] ([SkillId])
+);
+
+***************************
+
+CREATE TABLE [dbo].[Mentee] (
+    [MenteeId] INT NULL,
+    [SkillId]  INT NULL,
+    [MentorId] INT NULL,
+    CONSTRAINT [FK_Mentee_ToTable] FOREIGN KEY ([MenteeId]) REFERENCES [dbo].[Users] ([UserId]),
+    CONSTRAINT [FK_Mentee_ToTable_1] FOREIGN KEY ([SkillId]) REFERENCES [dbo].[Skills] ([SkillId]),
+    CONSTRAINT [FK_Mentee_ToTable_2] FOREIGN KEY ([MentorId]) REFERENCES [dbo].[Users] ([UserId])
+);
 
